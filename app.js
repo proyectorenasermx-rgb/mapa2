@@ -6,9 +6,9 @@ const lugares = Array.from({ length: 35 }, (_, i) => ({
   info: `Información del Lugar ${i + 1}`
 }));
 
-// 📍 Leaflet mapa
+// 🌍 Leaflet Mapa
 const map = L.map('map').setView([19.31246, -98.88392], 12);
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
   attribution: '&copy; OpenStreetMap contributors'
 }).addTo(map);
 
@@ -20,7 +20,7 @@ const iconopozos = L.icon({
   popupAnchor: [0, -35]
 });
 
-// 📍 Marcadores en el mapa
+// 📍Marcadores
 const markers = lugares.map(lugar => {
   return L.marker([lugar.lat, lugar.lng], { icon: iconopozos })
     .addTo(map)
@@ -31,39 +31,47 @@ const markers = lugares.map(lugar => {
 const lista = document.getElementById("lista");
 const infoBox = document.getElementById("info-box");
 
+// Scroll infinito
 let mostrar = 0;
-const incrementoDesktop = 20;
-const incrementoMovil = 5;
+const difDesktop = 20;
+const difMovil = 5;
 
-// 🧠 Función para cargar más
-function cargarMas() {
+function cargarMas(){
   const esMovil = window.innerWidth <= 768;
-  const limite = esMovil ? incrementoMovil : incrementoDesktop;
+  const limite = esMovil ? difMovil : difDesktop;
   const fin = Math.min(mostrar + limite, lugares.length);
 
-  for (; mostrar < fin; mostrar++) {
+  for(; mostrar < fin; mostrar++){
     const lugar = lugares[mostrar];
     const li = document.createElement("li");
     li.textContent = lugar.nombre;
 
-    li.addEventListener("click", () => mostrarInfo(lugar, mostrar));
+    li.addEventListener("click", () => {
+      mostrarInfo(lugar, mostrar);
+      centerMarker(lugar, mostrar);
+    });
 
     lista.appendChild(li);
   }
 }
+lista.addEventListener("scroll", () => {
+  if(lista.scrollTop + lista.clientHeight >= lista.scrollHeight - 5){
+    cargarMas();
+  }
+});
 
-// 👇 Mostrar info del punto
-function mostrarInfo(lugar) {
+// 👁 Mostrar info
+function mostrarInfo(lugar){
   infoBox.innerHTML = `<strong>${lugar.nombre}</strong><br>${lugar.info}`;
   infoBox.classList.remove("hidden");
 }
 
-// ✨ Scroll infinito en la lista
-lista.addEventListener("scroll", () => {
-  if (lista.scrollTop + lista.clientHeight >= lista.scrollHeight - 5) {
-    cargarMas();
-  }
-});
+// 📍 Centrar mapa
+function centerMarker(lugar){
+  map.setView([lugar.lat, lugar.lng], 15, {
+    animate: true
+  });
+}
 
 // ✨ Buscador
 const iconSearch = document.getElementById("icon-search");
@@ -84,9 +92,19 @@ searchInput.addEventListener("input", () => {
   filtrados.forEach(l => {
     const li = document.createElement("li");
     li.textContent = l.nombre;
-    li.addEventListener("click", () => mostrarInfo(l));
+    li.addEventListener("click", () => {
+      mostrarInfo(l);
+      centerMarker(l);
+    });
     lista.appendChild(li);
   });
+});
+
+// 📍 Botón Centrar Todo
+const btnCentro = document.getElementById("btn-centro");
+btnCentro.addEventListener("click", () => {
+  const group = L.featureGroup(markers);
+  map.fitBounds(group.getBounds(), { animate: true });
 });
 
 // Inicio
