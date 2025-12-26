@@ -14,9 +14,17 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
 }).addTo(map);
 
 function restaurarVistaInicial() {
-  map.invalidateSize();
-  map.fitBounds(initialBounds, { animate: true });
+  setTimeout(() => {
+    map.invalidateSize();
+    map.fitBounds(initialBounds, { animate: true });
+
+    // 📱 En móvil, vuelve la vista al inicio
+    if (window.innerWidth <= 768) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }, 200);
 }
+
 
 
 // 🟡 Icono
