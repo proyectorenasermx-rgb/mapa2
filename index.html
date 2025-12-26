@@ -5,39 +5,36 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mapa Interactivo</title>
 
-  <!-- Leaflet -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-
-  <!-- Estilos -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-  <!-- Lupa / Buscador -->
-  <div id="search-container">
-    <img id="icon-search" src="iconolupa.png" alt="Buscar">
-    <input type="text" id="search" placeholder="Buscar lugar...">
-  </div>
+  <aside class="panel">
 
-  <!-- Lista de lugares -->
-  <ul id="lista"></ul>
+    <!-- Buscador -->
+    <div id="search-container">
+      <img id="icon-search" src="iconolupa.png" alt="Buscar">
+      <input type="text" id="search" placeholder="Buscar lugar...">
+    </div>
 
-  <!-- Info del lugar -->
-  <div id="info-box" class="hidden"></div>
+    <!-- Info -->
+    <div id="info-box" class="hidden"></div>
 
-  <!-- Botón centrar todo -->
-  <button id="btn-centro">
-    <img src="iconocentrar.png" alt="Centrar Mapa">
-  </button>
+    <!-- Lista -->
+    <ul id="lista"></ul>
+
+  </aside>
 
   <!-- Mapa -->
   <div id="map"></div>
 
-  <!-- Leaflet JS -->
+  <!-- Botón centrar -->
+  <button id="btn-centro">
+    <img src="iconocentrar.png" alt="Centrar mapa">
+  </button>
+
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-
-  <!-- JS -->
   <script src="app.js"></script>
-
 </body>
 </html>
