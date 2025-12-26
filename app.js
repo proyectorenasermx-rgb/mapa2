@@ -1,4 +1,4 @@
-// 📍 Simulación de 35 lugares
+// 📍 Datos simulados
 const lugares = Array.from({ length: 35 }, (_, i) => ({
   nombre: `Lugar ${i + 1}`,
   lat: 19.31 + Math.random() * 0.05,
@@ -6,117 +6,73 @@ const lugares = Array.from({ length: 35 }, (_, i) => ({
   info: `Información del Lugar ${i + 1}`
 }));
 
-// 🌍 Leaflet Mapa
+// 🌍 Mapa
 const map = L.map('map').setView([19.31246, -98.88392], 12);
+
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
-  attribution: '&copy; OpenStreetMap contributors'
+  attribution: '&copy; OpenStreetMap'
 }).addTo(map);
 
-// 🟡 Icono personalizado
+// 🟡 Icono
 const iconopozos = L.icon({
   iconUrl: 'iconopozos.png',
   iconSize: [40, 40],
-  iconAnchor: [20, 40],
-  popupAnchor: [0, -35]
+  iconAnchor: [20, 40]
 });
 
-// 📍Marcadores
-const markers = lugares.map(lugar => {
-  return L.marker([lugar.lat, lugar.lng], { icon: iconopozos })
+// 📍 Marcadores
+const markers = lugares.map(l =>
+  L.marker([l.lat, l.lng], { icon: iconopozos })
     .addTo(map)
-    .bindPopup(`<b>${lugar.nombre}</b><br>${lugar.info}`);
-});
+    .bindPopup(`<b>${l.nombre}</b><br>${l.info}`)
+);
 
 // 📋 Lista
 const lista = document.getElementById("lista");
 const infoBox = document.getElementById("info-box");
 
-// Scroll infinito
-let mostrar = 0;
-const difDesktop = 20;
-const difMovil = 5;
-
-function cargarMas(){
-  const esMovil = window.innerWidth <= 768;
-  const limite = esMovil ? difMovil : difDesktop;
-  const fin = Math.min(mostrar + limite, lugares.length);
-
-  for(; mostrar < fin; mostrar++){
-    const lugar = lugares[mostrar];
+function renderLista(data) {
+  lista.innerHTML = "";
+  data.forEach(l => {
     const li = document.createElement("li");
-    li.textContent = lugar.nombre;
+    li.textContent = l.nombre;
 
-    li.addEventListener("click", () => {
-      mostrarInfo(lugar, mostrar);
-      centerMarker(lugar, mostrar);
-    });
+    li.onclick = () => {
+      infoBox.innerHTML = `<strong>${l.nombre}</strong><br>${l.info}`;
+      infoBox.classList.remove("hidden");
+      map.setView([l.lat, l.lng], 15);
+    };
 
     lista.appendChild(li);
-  }
-}
-lista.addEventListener("scroll", () => {
-  if(lista.scrollTop + lista.clientHeight >= lista.scrollHeight - 5){
-    cargarMas();
-  }
-});
-
-// 👁 Mostrar info
-function mostrarInfo(lugar){
-  infoBox.innerHTML = `<strong>${lugar.nombre}</strong><br>${lugar.info}`;
-  infoBox.classList.remove("hidden");
-}
-
-// 📍 Centrar mapa
-function centerMarker(lugar){
-  map.setView([lugar.lat, lugar.lng], 15, {
-    animate: true
   });
-
-  // Mostrar popup con nombre
-  L.popup({
-    closeButton: true,
-    autoClose: true,
-    closeOnEscapeKey: true,
-    closeOnClick: false
-  })
-  .setLatLng([lugar.lat, lugar.lng])
-  .setContent(`<strong>${lugar.nombre}</strong>`)
-  .openOn(map);
 }
 
-// ✨ Buscador
+renderLista(lugares);
+
+// 🔍 Buscador
 const iconSearch = document.getElementById("icon-search");
 const searchInput = document.getElementById("search");
 
-iconSearch.addEventListener("click", () => {
-  searchInput.style.display = searchInput.style.display === "block" ? "none" : "block";
+iconSearch.onclick = () => {
+  searchInput.style.display =
+    searchInput.style.display === "block" ? "none" : "block";
+
+  if (searchInput.style.display === "none") {
+    searchInput.value = "";
+    renderLista(lugares);
+  }
   searchInput.focus();
-});
+};
 
-searchInput.addEventListener("input", () => {
+searchInput.oninput = () => {
   const term = searchInput.value.toLowerCase();
-  lista.innerHTML = "";
-  mostrar = 0;
-  const filtrados = lugares.filter(l =>
-    l.nombre.toLowerCase().includes(term)
+  renderLista(
+    lugares.filter(l => l.nombre.toLowerCase().includes(term))
   );
-  filtrados.forEach(l => {
-    const li = document.createElement("li");
-    li.textContent = l.nombre;
-    li.addEventListener("click", () => {
-      mostrarInfo(l);
-      centerMarker(l);
-    });
-    lista.appendChild(li);
-  });
-});
+};
 
-// 📍 Botón Centrar Todo
-const btnCentro = document.getElementById("btn-centro");
-btnCentro.addEventListener("click", () => {
+// 📍 Centrar todo
+document.getElementById("btn-centro").onclick = () => {
   const group = L.featureGroup(markers);
-  map.fitBounds(group.getBounds(), { animate: true });
-});
-
-// Inicio
-cargarMas();
+  map.fitBounds(group.getBounds());
+};
