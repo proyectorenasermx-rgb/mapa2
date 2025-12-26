@@ -71,6 +71,17 @@ function centerMarker(lugar){
   map.setView([lugar.lat, lugar.lng], 15, {
     animate: true
   });
+
+  // Mostrar popup con nombre
+  L.popup({
+    closeButton: true,
+    autoClose: true,
+    closeOnEscapeKey: true,
+    closeOnClick: false
+  })
+  .setLatLng([lugar.lat, lugar.lng])
+  .setContent(`<strong>${lugar.nombre}</strong>`)
+  .openOn(map);
 }
 
 // ✨ Buscador
