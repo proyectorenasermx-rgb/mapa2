@@ -102,33 +102,41 @@ body {
 /* ================= PC ================= */
 @media (min-width: 769px) {
 
+  html, body {
+    height: 100%;
+    overflow: hidden;
+  }
+
   body {
+    display: flex;
     flex-direction: row;
   }
 
-  .panel {
+  /* PANEL IZQUIERDO */
+  #search-container,
+  #info-box,
+  #lista {
     width: 40%;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
   }
 
-  #search-container {
-    position: sticky;
-    top: 0;
-    background: #fff;
-    z-index: 3;
+  #search-container,
+  #info-box {
+    flex-shrink: 0;
   }
 
   #lista {
     flex: 1;
+    overflow-y: auto;
   }
 
+  /* MAPA */
   #map {
     width: 60%;
     height: 100vh;
+    flex-shrink: 0;
   }
 }
+
 
 /* ===== PC: JERARQUÍA LUPA > INFO > LISTA ===== */
 @media (min-width: 769px) {
