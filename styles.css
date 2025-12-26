@@ -169,3 +169,12 @@ body {
   }
 }
 
+/* ===== LISTA COLAPSADA DURANTE BÚSQUEDA ===== */
+.lista-colapsada {
+  max-height: 0 !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+  border: none !important;
+}
+
+
