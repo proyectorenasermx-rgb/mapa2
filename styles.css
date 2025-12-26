@@ -84,3 +84,31 @@ html, body {
     height: 50vh;
   }
 }
+/* ===== PC: MAPA IZQUIERDA ===== */
+@media (min-width: 769px) {
+  body {
+    flex-direction: row;
+  }
+  #map {
+    order: 1;      /* mapa primero */
+    width: 60%;    /* más espacio al mapa */
+  }
+  #search-container,
+  #lista,
+  #info-box {
+    order: 2;      /* lista y demás a la derecha */
+    width: 40%;
+  }
+
+  #lista {
+    max-height: calc(100vh - 120px); /* scroll lista completo */
+  }
+}
+
+/* ===== MÓVIL: LISTA SCROLLEABLE ===== */
+@media (max-width: 768px) {
+  #lista {
+    max-height: none; /* todo scroll posible */
+  }
+}
+
