@@ -78,12 +78,28 @@ html, body {
   height: 50vh;
 }
 
-/* ===== MOVIL ===== */
+/* ===== MÓVIL: LISTA SCROLLEABLE ===== */
 @media (max-width: 768px) {
+
+  body {
+    flex-direction: column;
+    height: auto;
+  }
+
+  #lista {
+    /* Altura fija para activar scroll interno */
+    max-height: calc(100vh - 150px); 
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch; /* mejora el scroll en iOS */
+  }
+
   #map {
     height: 50vh;
   }
-}/* ===== PC: MAPA A LA DERECHA ===== */
+}
+
+
+/* ===== PC: MAPA A LA DERECHA ===== */
 @media (min-width: 769px) {
   body {
     display: flex;
