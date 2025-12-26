@@ -83,32 +83,50 @@ html, body {
   #map {
     height: 50vh;
   }
-}
-/* ===== PC: MAPA IZQUIERDA ===== */
+}/* ===== PC: MAPA A LA DERECHA ===== */
 @media (min-width: 769px) {
   body {
+    display: flex;
     flex-direction: row;
+    align-items: flex-start;
   }
+
   #map {
-    order: 1;      /* mapa primero */
-    width: 60%;    /* más espacio al mapa */
+    flex: 0 0 60%; /* ocupa 60% del ancho */
+    order: 2;      /* aparece después de la lista */
+    height: calc(100vh - 20px);
   }
+
   #search-container,
   #lista,
   #info-box {
-    order: 2;      /* lista y demás a la derecha */
-    width: 40%;
+    flex: 0 0 40%; /* ocupan 40% */
+    order: 1;      /* aparecen antes que el mapa */
   }
 
   #lista {
-    max-height: calc(100vh - 120px); /* scroll lista completo */
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
   }
 }
 
 /* ===== MÓVIL: LISTA SCROLLEABLE ===== */
 @media (max-width: 768px) {
+
+  body {
+    flex-direction: column;
+    height: auto; /* permite scroll del body completo */
+  }
+
   #lista {
-    max-height: none; /* todo scroll posible */
+    max-height: 40vh; /* limita la altura visible y permite scroll */
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch; /* scroll más suave en iOS */
+  }
+
+  #map {
+    height: 50vh; /* mapa ocupa 50% de la pantalla */
   }
 }
+
 
