@@ -129,3 +129,43 @@ body {
     height: 100vh;
   }
 }
+
+/* ===== PC: JERARQUÍA LUPA > INFO > LISTA ===== */
+@media (min-width: 769px) {
+
+  body {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+  }
+
+  /* Columna izquierda */
+  #search-container,
+  #info-box,
+  #lista {
+    width: 40%;
+  }
+
+  /* Forzamos orden vertical */
+  #search-container {
+    order: 1;
+  }
+
+  #info-box {
+    order: 2;
+  }
+
+  #lista {
+    order: 3;
+    max-height: calc(100vh - 140px); /* deja espacio a lupa + info */
+    overflow-y: auto;
+  }
+
+  /* Mapa a la derecha */
+  #map {
+    width: 60%;
+    height: 100vh;
+    order: 4;
+  }
+}
+
