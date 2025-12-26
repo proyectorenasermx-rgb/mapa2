@@ -13,6 +13,12 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
   attribution: '&copy; OpenStreetMap'
 }).addTo(map);
 
+function restaurarVistaInicial() {
+  map.invalidateSize();
+  map.fitBounds(initialBounds, { animate: true });
+}
+
+
 // 🟡 Icono
 const iconopozos = L.icon({
   iconUrl: 'iconopozos.png',
@@ -26,6 +32,11 @@ const markers = lugares.map(l =>
     .addTo(map)
     .bindPopup(`<b>${l.nombre}</b><br>${l.info}`)
 );
+
+// 📐 Vista inicial del mapa (todos los marcadores)
+const group = L.featureGroup(markers);
+const initialBounds = group.getBounds();
+
 
 // 📋 Lista
 const lista = document.getElementById("lista");
@@ -54,23 +65,37 @@ const iconSearch = document.getElementById("icon-search");
 const searchInput = document.getElementById("search");
 
 iconSearch.onclick = () => {
-  searchInput.style.display =
-    searchInput.style.display === "block" ? "none" : "block";
+  const abierto = searchInput.style.display === "block";
 
-  if (searchInput.style.display === "none") {
+  searchInput.style.display = abierto ? "none" : "block";
+
+  if (abierto) {
+    // 🔙 Se cierra la búsqueda
     searchInput.value = "";
+    lista.classList.remove("lista-colapsada");
     renderLista(lugares);
+    restaurarVistaInicial();
+  } else {
+    // 🔍 Se abre la búsqueda
+    lista.classList.add("lista-colapsada");
+    searchInput.focus();
   }
-  searchInput.focus();
 };
 
 searchInput.oninput = () => {
   const term = searchInput.value.toLowerCase();
+
+  if (term === "") {
+    lista.classList.remove("lista-colapsada");
+    renderLista(lugares);
+    restaurarVistaInicial();
+    return;
+  }
+
   renderLista(
     lugares.filter(l => l.nombre.toLowerCase().includes(term))
   );
 };
-
 // 📍 Centrar todo
 document.getElementById("btn-centro").onclick = () => {
   const group = L.featureGroup(markers);
