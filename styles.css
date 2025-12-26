@@ -93,9 +93,34 @@ body {
 }
 
 /* ================= MÓVIL ================= */
+/* ===== MÓVIL ===== */
 @media (max-width: 768px) {
+
+  html, body {
+    height: auto;
+    overflow-y: auto;
+  }
+
+  body {
+    display: block;
+  }
+
+  #search-container {
+    position: sticky;
+    top: 0;
+    background: #fff;
+    z-index: 5;
+  }
+
   #lista {
     max-height: 40vh;
+    overflow-y: auto;
+    transition: max-height 0.3s ease;
+  }
+
+  #map {
+    height: 50vh;
+    width: 100%;
   }
 }
 
