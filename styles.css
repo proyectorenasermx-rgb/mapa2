@@ -1,0 +1,84 @@
+/* ===== GLOBAL ===== */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: Arial, sans-serif;
+}
+
+/* ===== BUSCADOR ===== */
+#search-container {
+  position: relative;
+  padding: 10px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #ccc;
+}
+
+#icon-search {
+  width: 24px;
+  cursor: pointer;
+  margin-right: 8px;
+}
+
+#search {
+  flex: 1;
+  padding: 6px 10px;
+  display: none;
+}
+
+/* ===== INFO BOX ===== */
+#info-box {
+  padding: 10px;
+  background: #f9f9f9;
+  border-bottom: 1px solid #ccc;
+}
+
+.hidden {
+  display: none;
+}
+
+/* ===== LAYOUT ===== */
+body {
+  display: flex;
+  flex-direction: row;
+}
+
+#lista {
+  width: 30%;
+  padding: 10px;
+  list-style: none;
+  overflow-y: auto;
+  height: calc(100vh - 50px);
+}
+
+#lista li {
+  cursor: pointer;
+  padding: 8px;
+  border-bottom: 1px solid #eee;
+}
+
+#lista li:hover {
+  background: #efefef;
+}
+
+#map {
+  width: 70%;
+  height: calc(100vh - 50px);
+}
+
+/* ===== MOVIL ===== */
+@media (max-width: 768px) {
+  body {
+    flex-direction: column;
+  }
+
+  #lista, #map {
+    width: 100%;
+  }
+
+  #map {
+    height: 50vh;
+  }
+}
