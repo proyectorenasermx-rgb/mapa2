@@ -1,3 +1,4 @@
+/* ================= RESET BÁSICO ================= */
 * {
   box-sizing: border-box;
   font-family: Arial, sans-serif;
@@ -5,95 +6,96 @@
 
 html, body {
   margin: 0;
-  height: 100%;
+  padding: 0;
 }
 
-/* ===== LAYOUT ===== */
-body {
-  display: flex;
-  flex-direction: column;
-}
-
-/* ===== PANEL ===== */
-.panel {
-  background: #fff;
-  z-index: 2;
-}
-
-/* ===== BUSCADOR ===== */
+/* ================= BUSCADOR ================= */
 #search-container {
+  position: relative;
+  padding: 10px;
+  background: #fff;
+  border-bottom: 1px solid #ccc;
   display: flex;
   align-items: center;
-  padding: 10px;
-  border-bottom: 1px solid #ccc;
+  z-index: 5;
 }
 
 #icon-search {
   width: 28px;
   cursor: pointer;
+  margin-right: 8px;
 }
 
 #search {
-  margin-left: 10px;
   flex: 1;
-  padding: 6px;
+  padding: 6px 10px;
   display: none;
 }
 
-/* ===== INFO ===== */
+/* ================= INFO ================= */
 #info-box {
   padding: 10px;
-  border-bottom: 1px solid #ccc;
   background: #f9f9f9;
+  border-bottom: 1px solid #ccc;
 }
 
 .hidden {
   display: none;
 }
 
-/* ===== LISTA ===== */
+/* ================= LISTA ================= */
 #lista {
   list-style: none;
   margin: 0;
-  padding: 0;
+  padding: 10px;
   overflow-y: auto;
+  transition: max-height 0.3s ease;
 }
 
 #lista li {
-  padding: 10px;
-  border-bottom: 1px solid #eee;
   cursor: pointer;
+  padding: 8px;
+  border-bottom: 1px solid #eee;
 }
 
 #lista li:hover {
   background: #efefef;
 }
 
-/* ===== MAPA ===== */
-#map {
-  width: 100%;
-  height: 50vh;
+/* ===== LISTA COLAPSADA ===== */
+.lista-colapsada {
+  max-height: 0 !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+  border: none !important;
 }
 
-/* ===== BOTÓN CENTRAR ===== */
+/* ================= MAPA ================= */
+#map {
+  width: 100%;
+}
+
+/* ================= BOTÓN CENTRAR ================= */
 #btn-centro {
   position: absolute;
   top: 10px;
   right: 10px;
-  border: none;
   background: #fff;
-  padding: 8px;
+  border: none;
   cursor: pointer;
+  padding: 8px;
   border-radius: 4px;
-  box-shadow: 0 0 8px rgba(0,0,0,.3);
+  box-shadow: 0 0 8px rgba(0,0,0,0.2);
+  z-index: 10;
 }
 
 #btn-centro img {
   width: 24px;
 }
 
-/* ================= MÓVIL ================= */
-/* ===== MÓVIL ===== */
+/* =================================================
+   ===================== MÓVIL =====================
+   ================================================= */
 @media (max-width: 768px) {
 
   html, body {
@@ -108,23 +110,20 @@ body {
   #search-container {
     position: sticky;
     top: 0;
-    background: #fff;
-    z-index: 5;
   }
 
   #lista {
     max-height: 40vh;
-    overflow-y: auto;
-    transition: max-height 0.3s ease;
   }
 
   #map {
     height: 50vh;
-    width: 100%;
   }
 }
 
-/* ================= PC ================= */
+/* =================================================
+   ====================== PC =======================
+   ================================================= */
 @media (min-width: 769px) {
 
   html, body {
@@ -137,7 +136,7 @@ body {
     flex-direction: row;
   }
 
-  /* PANEL IZQUIERDO */
+  /* ----- Columna izquierda ----- */
   #search-container,
   #info-box,
   #lista {
@@ -154,60 +153,10 @@ body {
     overflow-y: auto;
   }
 
-  /* MAPA */
+  /* ----- Mapa ----- */
   #map {
     width: 60%;
     height: 100vh;
     flex-shrink: 0;
   }
 }
-
-
-/* ===== PC: JERARQUÍA LUPA > INFO > LISTA ===== */
-@media (min-width: 769px) {
-
-  body {
-    display: flex;
-    flex-direction: row;
-    height: 100vh;
-  }
-
-  /* Columna izquierda */
-  #search-container,
-  #info-box,
-  #lista {
-    width: 40%;
-  }
-
-  /* Forzamos orden vertical */
-  #search-container {
-    order: 1;
-  }
-
-  #info-box {
-    order: 2;
-  }
-
-  #lista {
-    order: 3;
-    max-height: calc(100vh - 140px); /* deja espacio a lupa + info */
-    overflow-y: auto;
-  }
-
-  /* Mapa a la derecha */
-  #map {
-    width: 60%;
-    height: 100vh;
-    order: 4;
-  }
-}
-
-/* ===== LISTA COLAPSADA DURANTE BÚSQUEDA ===== */
-.lista-colapsada {
-  max-height: 0 !important;
-  overflow: hidden !important;
-  padding: 0 !important;
-  border: none !important;
-}
-
-
